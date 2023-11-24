@@ -13,3 +13,11 @@ Authenticating with Single Sign-On(SSO)
 
 # Building
 Quick start : 
+
+# How to use
+1. The API that calls AuthHub sends the URL to be redirected to in params 'redirection'
+ex : http://sample.com?redirection=http:sample.com
+2. Then the issued token index is sent to the redirection URL 
+ex : http://sample.com?tokenIndex=00000
+3. GET /token/get : get accessToken and refresh token by tokenIndex
+4. GET /token/refresh/accesstoken : refresh accessToken by refreshToken
