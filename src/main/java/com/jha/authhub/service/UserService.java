@@ -21,7 +21,9 @@ public class UserService implements UserDetailsService {
     UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException{
-        UserEntity userEntity = userRepository.findOneByName(userName).orElseThrow();
+        UserEntity userEntity = userRepository.findOneByName(userName).orElseThrow(()-> {
+            throw new UsernameNotFoundException(userName);
+        });
         List<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
         if(userEntity.getRole().equals("ADMIN")) {
             auth.add(new SimpleGrantedAuthority("ADMIN"));

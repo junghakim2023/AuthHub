@@ -22,9 +22,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken) authentication;
         UserDetails user = userService.loadUserByUsername(authToken.getName());
-        if (!user.getPassword().equals(password)){
+
+        if (user == null || !user.getPassword().equals(password))
             throw new BadCredentialsException("password error");
-        }
 
         return new UsernamePasswordAuthenticationToken(username, password, user.getAuthorities());
     }
