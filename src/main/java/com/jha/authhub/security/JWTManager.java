@@ -26,7 +26,7 @@ public class JWTManager {
                     .claim("userName", userName)
                     .claim("userIdx", userIndex)
                     .setIssuedAt(now)
-                    .setExpiration(new Date(System.currentTimeMillis() + (12 * 60 * 60)))  // 12h
+                    .setExpiration(new Date(System.currentTimeMillis() + (12 * 60 * 60 * 1000)))  // 12h
                     .signWith(SignatureAlgorithm.HS256, secretBytes)
                     .compact();
         }catch (Exception e){
@@ -90,7 +90,7 @@ public class JWTManager {
                     .setHeaderParam("type", "jwt")
                     .claim("userIdx", userIdx)
                     .setIssuedAt(now)
-                    .setExpiration(new Date(System.currentTimeMillis() + (60 * 60 * 24 * 7))) // 1 week
+                    .setExpiration(new Date(System.currentTimeMillis() + (60 * 60 * 24 * 7 * 1000))) // 1 week
                     .signWith(SignatureAlgorithm.HS256, secretBytes)
                     .compact();
         } catch (Exception e) {
