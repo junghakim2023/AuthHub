@@ -21,7 +21,7 @@ public class JWTManager {
         Date now = new Date();
         try {
             byte[] secretBytes = jwtSecreteKey.getBytes(StandardCharsets.UTF_8);
-            return jwtPrefix + Jwts.builder()
+            return Jwts.builder()
                     .setHeaderParam("type", "jwt")
                     .claim("userName", userName)
                     .claim("userIdx", userIndex)
@@ -60,9 +60,6 @@ public class JWTManager {
         if (token == null)
             return null;
 
-        if (!token.startsWith(jwtPrefix))
-            return null;
-
         try {
             if (jwtParser == null)
                 jwtParser = Jwts.parser().setSigningKey(jwtSecreteKey.getBytes(StandardCharsets.UTF_8));
@@ -70,7 +67,6 @@ public class JWTManager {
             System.out.println("error in jwtParser : "+ e.getMessage());
         }
 
-        token = token.substring(jwtPrefix.length());
         try {
             return jwtParser.parseClaimsJws(token).getBody();
         } catch (ExpiredJwtException e) {
@@ -86,7 +82,7 @@ public class JWTManager {
 
         try {
             byte[] secretBytes = jwtSecreteKey.getBytes(StandardCharsets.UTF_8);
-            return jwtPrefix + Jwts.builder()
+            return Jwts.builder()
                     .setHeaderParam("type", "jwt")
                     .claim("userIdx", userIdx)
                     .setIssuedAt(now)

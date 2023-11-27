@@ -4,11 +4,11 @@ import com.jha.authhub.model.TokenEntity;
 import com.jha.authhub.model.UserEntity;
 import com.jha.authhub.repository.TokenRepository;
 import com.jha.authhub.security.JWTManager;
-import io.jsonwebtoken.Claims;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +33,7 @@ public class AuthHubController {
         return mv;
     }
 
-    @GetMapping("/token/get")
+    @GetMapping("/login/token/get")
     public String requestToken(HttpServletRequest request, HttpServletResponse response) {
         String tokenKey = request.getParameter("tokenKey");
         TokenEntity tokenEntity = tokenRepository.findByTokenKey(tokenKey).orElseThrow();
@@ -54,14 +54,15 @@ public class AuthHubController {
         return resObject.toJSONString();
     }
 
-    @GetMapping("/token/refresh/accessToken")
-    public String requestAccessToken(HttpServletRequest request, HttpServletResponse response) {
-        String refreshToken = request.getParameter("refreshToken");
-        JSONObject resObject = new JSONObject();
 
+    @CrossOrigin(origins = {"${allowed.origins1}", "${allowed.origins2}"}, allowCredentials = "true")
+    @PostMapping("/login/token/refresh/accessToken")
+    public String requestAccessToken(@RequestBody String refreshTokenBody, HttpServletRequest request, HttpServletResponse response) {
+        JSONObject resObject = new JSONObject();
+        String refreshToken = refreshTokenBody.replace("refresh=", "");
         //todo : handling throw
         TokenEntity tokenEntity = tokenRepository.findByRefreshToken(refreshToken).orElseThrow();
-        if (jwtManager.checkValidToken(tokenEntity.getRefreshToken())){
+        if (!jwtManager.checkValidToken(tokenEntity.getRefreshToken())){
             resObject.put("accessToken", null);
             return resObject.toJSONString();
         }
