@@ -35,6 +35,23 @@ public class JWTManager {
         return null;
     }
 
+    public String createTokenKey(Long userIndex) {
+        Date now = new Date();
+        try {
+            String tokenKeySecrete = "tokenKeytokenKeytokenKeytokenKey";
+            byte[] secretBytes = tokenKeySecrete.getBytes(StandardCharsets.UTF_8);
+            return Jwts.builder()
+                    .setHeaderParam("type", "jwt")
+                    .claim("userIdx", userIndex)
+                    .setIssuedAt(now)
+                    .signWith(SignatureAlgorithm.HS256, secretBytes)
+                    .compact();
+        }catch (Exception e){
+            System.out.println("error in createAccessToken : "+ e.getMessage());
+        }
+        return null;
+    }
+
     public Boolean checkValidToken(String token) {
         return (null != resolveToken(token));
     }

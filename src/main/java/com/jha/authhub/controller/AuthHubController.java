@@ -35,8 +35,8 @@ public class AuthHubController {
 
     @GetMapping("/token/get")
     public String requestToken(HttpServletRequest request, HttpServletResponse response) {
-        Long tokenIndex = Long.parseLong(request.getParameter("tokenIndex"));
-        TokenEntity tokenEntity = tokenRepository.findById(tokenIndex).orElseThrow();
+        String tokenKey = request.getParameter("tokenKey");
+        TokenEntity tokenEntity = tokenRepository.findByTokenKey(tokenKey).orElseThrow();
         JSONObject resObject = new JSONObject();
 
         if (!jwtManager.checkValidToken(tokenEntity.getAccessToken()) || !jwtManager.checkValidToken(tokenEntity.getRefreshToken())){

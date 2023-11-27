@@ -16,7 +16,10 @@ public class TokenEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tokenIndex;
 
-    @OneToOne
+
+    private String tokenKey;
+
+    @OneToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="userIndex", nullable=true)
     private UserEntity user;
 

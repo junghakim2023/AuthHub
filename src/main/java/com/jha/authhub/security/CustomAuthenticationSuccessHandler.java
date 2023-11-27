@@ -29,16 +29,19 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         Long userIndex = userEntity.getUserIndex();
         String accessToken = jwtManager.createAccessToken(userIndex, userName);
         String refreshToken = jwtManager.createRefreshToken(userIndex);
+        String tokenKey = jwtManager.createTokenKey(userIndex);
 
         // todo : handle throw
-        TokenEntity tokenEntity = tokenRepository.findById(userIndex).orElseGet(TokenEntity::new);
+        TokenEntity tokenEntity = tokenRepository.findByUser_UserIndex(userIndex).orElseGet(TokenEntity::new);
+        tokenEntity.setUser(userEntity);
         tokenEntity.setAccessToken(accessToken);
         tokenEntity.setRefreshToken(refreshToken);
+        tokenEntity.setTokenKey(tokenKey);
         tokenEntity = tokenRepository.save(tokenEntity);
 
         String redirectionURL = request.getParameter("redirection");
         if (redirectionURL != null) {
-            redirectionURL = redirectionURL + "?tokenIndex=" + tokenEntity.getTokenIndex();
+            redirectionURL = redirectionURL + "?tokenKey=" + tokenEntity.getTokenKey();
             response.sendRedirect(redirectionURL);
         }
     }
