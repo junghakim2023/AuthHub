@@ -66,7 +66,7 @@
 </main>
 
 <script>
-    document.getElementById('loginForm').action = "/login"+ window.location.search;
+    var redirection;
 
     function getQueryParam(name) {
      const urlParams = new URLSearchParams(window.location.search);
@@ -76,7 +76,12 @@
     if (errorParam != undefined){
         var errorText = document.getElementById("fail");
         errorText.style.display = 'block';
+        redirection = localStorage.getItem("redirection");
+    }else{
+        redirection = window.location.search
     }
+    localStorage.setItem("redirection", redirection);
+    document.getElementById('loginForm').action = "/login"+ redirection;
 
 </script>
 
