@@ -1,15 +1,24 @@
 # AuthHub
 Authenticating with Single Sign-On(SSO)
+>http://ec2-3-99-218-40.ca-central-1.compute.amazonaws.com:8081/login
+
+![image](https://github.com/junghakim2023/AuthHub/assets/150854918/cb3398d3-6ad8-4dd9-94c9-8610c538e0bc)
+
+# Publish
+- AWS (canada centre)
+- RDS (mysql)
 
 # Setup
 - Intelij 2023.2.4
 - Spring Boot (v3.1.5)
+- Spring Security
 - java 11
 - bootstrap 5.0.2
 
 # Features
 - Using JWT (access token, refresh token) to authenticate
 - Redirecting after login
+- Renewing access token by refresh token
 
 # Building
 Quick start : 
