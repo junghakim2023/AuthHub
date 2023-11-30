@@ -5,7 +5,8 @@ Authenticating with Single Sign-On(SSO)
 ![image](https://github.com/junghakim2023/AuthHub/assets/150854918/cb3398d3-6ad8-4dd9-94c9-8610c538e0bc)
 
 # Publish
-- AWS (canada centre)
+- Jenkins (Version 2.426.1)
+- AWS (Amazon Linux)
 - RDS (mysql)
 
 # Setup
