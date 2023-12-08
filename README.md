@@ -3,6 +3,8 @@ Authenticating with Single Sign-On(SSO)
 >http://ec2-3-99-218-40.ca-central-1.compute.amazonaws.com:8081/login
 
 ![image](https://github.com/junghakim2023/AuthHub/assets/150854918/cb3398d3-6ad8-4dd9-94c9-8610c538e0bc)
+![image](https://github.com/junghakim2023/AuthHub/assets/150854918/3c1294b3-eea4-4908-be71-423126c65dce)
+
 
 # Publish
 - Jenkins (Version 2.426.1)
@@ -17,7 +19,9 @@ Authenticating with Single Sign-On(SSO)
 - bootstrap 5.0.2
 
 # Features
+- SignIn/SignUp
 - Using JWT (access token, refresh token) to authenticate
+- Saving encoded password for user's security
 - Redirecting after login
 - Renewing access token by refresh token
 
