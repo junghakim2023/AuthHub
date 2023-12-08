@@ -40,7 +40,7 @@ public class AuthHubController {
         return mv;
     }
 
-    @GetMapping("/signup")
+    @GetMapping("/login/signup")
     public ModelAndView signup(HttpServletRequest request, ModelAndView mv) {
         mv.setViewName("signup");
         return mv;
@@ -68,7 +68,7 @@ public class AuthHubController {
     }
 
     @CrossOrigin(origins = {"${allowed.origins1}", "${allowed.origins2}"}, allowCredentials = "true")
-    @PostMapping("/request/signup")
+    @PostMapping("/login/request/signup")
     public String signUp(@RequestBody UserEntity userEntity, HttpServletRequest request, HttpServletResponse response) {
         if (userRepository.findOneByEmail(userEntity.getEmail()).isPresent())
             return "Already registered email";
