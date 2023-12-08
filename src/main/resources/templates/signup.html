@@ -1,0 +1,159 @@
+<!doctype html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>SignUp</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
+    <link href="../res/bootstrap_5.0.2/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .bd-placeholder-img {
+          font-size: 1.125rem;
+          text-anchor: middle;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          user-select: none;
+        }
+
+        @media (min-width: 768px) {
+          .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+          }
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="../res/css/login.css" rel="stylesheet">
+</head>
+<body class="text-center">
+
+<main class="form-signin">
+    <form method="post" id="signupForm">
+        <img class="mb-4" src="../res/bootstrap_5.0.2/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+        <h1 class="h3 mb-3 fw-normal">Sign up</h1>
+
+        <div class="form-floating">
+            <input type="text" class="form-control" id="name" name="name" required>
+            <label for="name">Name</label>
+        </div>
+
+        <div class="form-floating" style="padding-bottom:10px;padding-top:10px">
+            <input type="email" class="form-control" id="email" name="email" required>
+            <label for="email">Email</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="password"  name="password" placeholder="Password" required>
+            <label for="password">Password</label>
+        </div>
+        <div id ="fail" style="color:red;margin:10px 0px;display:none">
+            Try again
+        </div>
+        <!--
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        -->
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2023</p>
+    </form>
+</main>
+
+</body>
+</html>
+
+<script>
+    localStorage.setItem("redirection", window.location.search);
+    $('#password').on('input', function() {
+        checkPassword($(this).val());
+    });
+
+    function checkPassword(passwordText){
+        var isValid = true;
+        var text = "";
+
+        let reg = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,128}$/;
+        if (!passwordText.match(reg)){
+            text = "Password should be consisted of numbers, letters, special characters";
+            isValid = false;
+        }
+
+        if (passwordText.length > 128){
+            text = "Number of password characters should not be over 128";
+            isValid = false;
+        }
+
+        if (passwordText.length < 8){
+           text = "Number of password characters should be over 8";
+            isValid = false;
+        }
+        if (passwordText.length <= 0){
+            text  = "Please put your password";
+            isValid = false;
+        }
+
+
+        if (isValid)
+            $("#fail").css("display",'none');
+        else{
+            $("#fail").css("display",'block');
+            $("#fail").text(text);
+           }
+        return isValid;
+
+    }
+
+    $(document).ready(function() {
+        $('#signupForm').submit(function(e) {
+            e.preventDefault();
+
+            if ($('#email').length <= 0 || $('#email').length > 128){
+                alert("Invalid number of email (min 1, max 128)");
+                return;
+            }
+
+            if ($('#name').length <= 0 || $('#name').length > 128){
+                alert("Invalid number of name (min 1, max 128)");
+                return;
+            }
+            if (!checkPassword($('#password').val())){
+                alert("Check your password");
+                return;
+             }
+
+            $.ajax({
+                type: 'POST',
+                url: '/request/signup',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    "name": $("#name").val(),
+                    "email": $("#email").val(),
+                    "password": $("#password").val(),
+                    "userIndex": null,
+                    "role": null
+
+                }),
+                success: function(response) {
+                    if (response != "ok"){
+                        $("#fail").css("display",'block');
+                        $("#fail").text(response);
+                    }
+                    else
+                        window.location = "/login"+ localStorage.getItem("redirection");
+                },
+                error: function(error) {
+                        $("#fail").css("display",'block');
+                        $("#fail").text("Try again");
+                }
+            });
+        });
+    });
+
+</script>

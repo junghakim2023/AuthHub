@@ -3,11 +3,14 @@ package com.jha.authhub.controller;
 import com.jha.authhub.model.TokenEntity;
 import com.jha.authhub.model.UserEntity;
 import com.jha.authhub.repository.TokenRepository;
+import com.jha.authhub.repository.UserRepository;
 import com.jha.authhub.security.JWTManager;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,6 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthHubController {
     @Autowired
     TokenRepository tokenRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
     @Autowired
     JWTManager jwtManager;
 
@@ -30,6 +37,12 @@ public class AuthHubController {
     @GetMapping("/login")
     public ModelAndView login(HttpServletRequest request, ModelAndView mv) {
         mv.setViewName("login");
+        return mv;
+    }
+
+    @GetMapping("/signup")
+    public ModelAndView signup(HttpServletRequest request, ModelAndView mv) {
+        mv.setViewName("signup");
         return mv;
     }
 
@@ -52,6 +65,21 @@ public class AuthHubController {
         resObject.put("refreshToken", tokenEntity.getRefreshToken());
 
         return resObject.toJSONString();
+    }
+
+    @CrossOrigin(origins = {"${allowed.origins1}", "${allowed.origins2}"}, allowCredentials = "true")
+    @PostMapping("/request/signup")
+    public String signUp(@RequestBody UserEntity userEntity, HttpServletRequest request, HttpServletResponse response) {
+        if (userRepository.findOneByEmail(userEntity.getEmail()).isPresent())
+            return "Already registered email";
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        String encodedPassword = passwordEncoder.encode(userEntity.getPassword());
+        userEntity.setPassword(encodedPassword);
+        userEntity.setRole("USER");
+        userRepository.save(userEntity);
+        return "ok";
     }
 
 
