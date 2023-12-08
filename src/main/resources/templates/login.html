@@ -7,7 +7,7 @@
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.84.0">
     <title>Login</title>
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">
 
 
@@ -66,8 +66,11 @@
 </main>
 
 <script>
-    var redirection;
+    $(document).ready(function() {
+        $('#username').focus();
+     });
 
+    var redirection;
     function getQueryParam(name) {
      const urlParams = new URLSearchParams(window.location.search);
      return urlParams.get(name);
@@ -82,7 +85,6 @@
     }
     localStorage.setItem("redirection", redirection);
     document.getElementById('loginForm').action = "/login"+ redirection;
-
 </script>
 
 </body>
