@@ -26,7 +26,7 @@ public class JWTManager {
                     .claim("userName", userName)
                     .claim("userIdx", userIndex)
                     .setIssuedAt(now)
-                    .setExpiration(new Date(System.currentTimeMillis() + (12 * 60 * 60 * 1000)))  // 12h
+                    .setExpiration(new Date(System.currentTimeMillis() + 1000*5))//(12 * 60 * 60 * 1000)))  // 12h
                     .signWith(SignatureAlgorithm.HS256, secretBytes)
                     .compact();
         }catch (Exception e){
