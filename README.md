@@ -1,13 +1,14 @@
 # AuthHub
 Authenticating with Single Sign-On(SSO)
 
-작업기간 : 2023-11-25 ~ 2023-12-20
-작업인원 : 1 명
-작업 툴 : InteliJ
-작품소개 : Single Sign-On(SSO) 구현
-- Java, Spring boot, Spring Security 사용
-- 목표 : 특정 서비스에 종속되지 않는 독립적인 SSO 인증 시스템 구현
-- 결과 : 타 서비스에서 해당 로그인 서비스 통한 로그인 및 인증 연동이 정상적으로 동작함을 확인
+- 작업기간 : 2023-11-25 ~ 2023-12-20
+- 작업인원 : 1 명
+- 작업 툴 : InteliJ
+- 작품소개 : Single Sign-On(SSO) 구현
+  - Java, Spring boot, Spring Security 사용
+  -  목표 : 특정 서비스에 종속되지 않는 독립적인 SSO 인증 시스템 구현
+  -  결과 : 타 서비스에서 해당 로그인 서비스 통한 로그인 및 인증 연동이 정상적으로 동작함을 확인
+      - 로그인 연동 적용한 타 프로젝트 : https://github.com/junghakim2023/TimeTutor_React
 
 ![image](https://github.com/junghakim2023/AuthHub/assets/150854918/cb3398d3-6ad8-4dd9-94c9-8610c538e0bc)
 ![image](https://github.com/junghakim2023/AuthHub/assets/150854918/3c1294b3-eea4-4908-be71-423126c65dce)
